@@ -92,7 +92,7 @@
 
 
         const block3_columns = new GeoJSONLayer({
-          url: "./base/base.geojson",
+          url: "./base.geojson",
           renderer: {
             type: "simple",
             symbol: {
@@ -114,30 +114,6 @@
             },
           },
         });
-
-        const roof = new GeoJSONLayer({
-          url: "./roof/roof.geojson",
-          renderer: {
-            type: "simple",
-            symbol: {
-              type: "polygon-3d",
-              symbolLayers: [
-                {
-                  type: "extrude",
-                  size: 3,
-                  material: {
-                    color: "orange",
-                    //[251, 237, 215, 0.2],
-                  },
-                  edges: {
-                    type: "solid",
-                    color: "transparent",
-                  },
-                },
-              ],
-            },
-          },
-        });
         
 
         const map = new Map({
@@ -146,7 +122,6 @@
           layers: [
             
             block3_columns,
-            roof,
         ]
         });
 
