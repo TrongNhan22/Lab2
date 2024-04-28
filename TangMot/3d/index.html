@@ -44,7 +44,7 @@
 				responseType: "json"
 			};
 			// request json
-			esriRequest('./data.json', json_options).then(function (response) {
+			esriRequest('./roof.json', json_options).then(function (response) {
 				var graphicsLayer = new GraphicsLayer();
 				console.log(response);
 				response.data.forEach(function (data) {
@@ -53,18 +53,63 @@
 				map.add(graphicsLayer);
 
 			});
-			// esriRequest('./plump.json', json_options).then(function (response) {
-			// 	var graphicsLayer = new GraphicsLayer();
-			// 	console.log(response);
-			// 	response.data.forEach(function (data) {
-			// 		graphicsLayer.add(createGraphic(data));
-			// 	});
-			// 	map.add(graphicsLayer);
+			esriRequest('./plump/plump_1.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
 
-			// });
+			});
+			esriRequest('./plump/plump_2.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+			esriRequest('./plump/plump_3.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+			esriRequest('./plump/plump_4.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+			esriRequest('./plump/plump_5.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+			esriRequest('./plump_right/plump_1.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
 			// geojson layer
 			const geojsonLayer = new GeoJSONLayer({
-				url: "./data.geojson"
+				url: "./base.geojson"
 			});
 
 			geojsonLayer.renderer = {
