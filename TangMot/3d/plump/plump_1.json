@@ -26,9 +26,7 @@
         "symbol": {
             "type": "simple-fill",
             "color": [
-                0,
-                0,
-                0
+                209,190,168
             ],
             "outline": {
                 "color": [
@@ -36,7 +34,7 @@
                     255,
                     255
                 ],
-                "width": 0.5
+                "width": 0.1
             }
         }
     },
@@ -77,9 +75,7 @@
         "symbol": {
             "type": "simple-fill",
             "color": [
-                0,
-                0,
-                0
+                209,190,168
             ],
             "outline": {
                 "color": [
@@ -87,7 +83,7 @@
                     255,
                     255
                 ],
-                "width": 0.5
+                "width": 0.1
             }
         }
     },
@@ -128,9 +124,7 @@
         "symbol": {
             "type": "simple-fill",
             "color": [
-                0,
-                0,
-                0
+                209,190,168
             ],
             "outline": {
                 "color": [
@@ -138,7 +132,7 @@
                     255,
                     255
                 ],
-                "width": 0.5
+                "width": 0.1
             }
         }
     },
@@ -181,9 +175,7 @@
         "symbol": {
             "type": "simple-fill",
             "color": [
-                0,
-                0,
-                0
+                209,190,168
             ],
             "outline": {
                 "color": [
@@ -191,7 +183,7 @@
                     255,
                     255
                 ],
-                "width": 0.5
+                "width": 0.1
             }
         }
     },
@@ -226,9 +218,7 @@
         "symbol": {
             "type": "simple-fill",
             "color": [
-                0,
-                0,
-                0
+                209,190,168
             ],
             "outline": {
                 "color": [
@@ -236,7 +226,7 @@
                     255,
                     255
                 ],
-                "width": 0.5
+                "width": 0.1
             }
         }
     }
