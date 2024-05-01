@@ -63,7 +63,7 @@ html, body, #viewDiv {
 						symbolLayers: [
 							{
 								type: "extrude",
-								size: 17,
+								size: 22,
 								material: {
 									color: [209,190,168]
 								}
@@ -82,7 +82,7 @@ html, body, #viewDiv {
 						symbolLayers: [
 							{
 								type: "extrude",
-								size: 17,
+								size: 22,
 								material: {
 									color: [209,190,168]
 								}
@@ -101,7 +101,7 @@ html, body, #viewDiv {
 						symbolLayers: [
 							{
 								type: "extrude",
-								size: 17,
+								size: 22,
 								material: {
 									color: [227,139,79]
 								}
@@ -111,23 +111,15 @@ html, body, #viewDiv {
 				}
 			});
 
-			const floor1_roof_top = new GeoJSONLayer({
-				url: "../walls/floor1_roof_top.geojson",
-				renderer: {
-					type: "simple",
-					symbol: {
-						type: "polygon-3d",
-						symbolLayers: [
-							{
-								type: "extrude",
-								size: 17,
-								material: {
-									color: [227,139,79]
-								}
-							}
-						]
-					}
-				}
+			// Roofs
+			esriRequest('./DataGeo/TangMot/3d/roofs/top.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
 			});
 			        
 			const map = new Map({
@@ -137,7 +129,6 @@ html, body, #viewDiv {
 					floor1_wall_left,
 					floor1_wall_right,
 					floor1_wall_top
-					//floor1_roof_top
 				] //end layers
             });
 
