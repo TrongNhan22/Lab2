@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport"
-	content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-<title>3D - Nhà thờ Đức Bà</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>3D - Nhà thờ Đức Bà</title>
 
-<style>
-html, body, #viewDiv {
-	padding: 0;
-	margin: 0;
-	height: 100%;
-	width: 100%;
-}
+	<style>
+		html,
+		body,
+		#viewDiv {
+			padding: 0;
+			margin: 0;
+			height: 100%;
+			width: 100%;
+		}
+	</style>
 
-</style>
+	<link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+	<script src="https://js.arcgis.com/4.29/"></script>
 
-<link rel="stylesheet"
-	href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
-<script src="https://js.arcgis.com/4.29/"></script>
+	<script>
+		require([
+			"esri/Map",
+			"esri/views/SceneView",
+			"esri/layers/GeoJSONLayer",
+			"esri/layers/SceneLayer", "esri/layers/GraphicsLayer", "esri/Graphic", "esri/request"
+		], function (Map, SceneView, GeoJSONLayer, SceneLayer,
+			GraphicsLayer, Graphic, esriRequest) {
+			var createGraphic = function (data) {
+				return new Graphic({
+					geometry: data,
+					symbol: data.symbol,
+					attributes: data,
+					popupTemplate: data.popupTemplate
+				});
+			};
 
-<script>
-        require([
-            "esri/Map",
-            "esri/views/SceneView",
-            "esri/layers/GeoJSONLayer",
-            "esri/layers/SceneLayer", "esri/layers/GraphicsLayer", "esri/Graphic", "esri/request"
-        ], function (Map, SceneView, GeoJSONLayer, SceneLayer,
-                     GraphicsLayer, Graphic, esriRequest) {
-        	var createGraphic = function(data) {
-    			return new Graphic({
-    				geometry : data,
-    				symbol : data.symbol,
-    				attributes : data,
-    				popupTemplate : data.popupTemplate
-    			});
-    		};
-    		
-    		const json_options = {
-    				query : {
-    					f : "json"
-    				},
-    				responseType : "json"
-    			};
+			const json_options = {
+				query: {
+					f: "json"
+				},
+				responseType: "json"
+			};
 			// request json
-			esriRequest('./base.json', json_options).then(function(response) {
+			esriRequest('./base.json', json_options).then(function (response) {
 				var graphicsLayer = new GraphicsLayer();
 				console.log(response);
-				response.data.forEach(function(data){
+				response.data.forEach(function (data) {
 					graphicsLayer.add(createGraphic(data));
 				});
 				map.add(graphicsLayer);
@@ -65,7 +65,7 @@ html, body, #viewDiv {
 								type: "extrude",
 								size: 17,
 								material: {
-									color: [209,190,168]
+									color: [209, 190, 168]
 								}
 							}
 						]
@@ -84,7 +84,7 @@ html, body, #viewDiv {
 								type: "extrude",
 								size: 17,
 								material: {
-									color: [209,190,168]
+									color: [209, 190, 168]
 								}
 							}
 						]
@@ -103,7 +103,7 @@ html, body, #viewDiv {
 								type: "extrude",
 								size: 17,
 								material: {
-									color: [227,139,79]
+									color: [227, 139, 79]
 								}
 							}
 						]
@@ -122,7 +122,7 @@ html, body, #viewDiv {
 								type: "extrude",
 								size: 17,
 								material: {
-									color: [227,139,79]
+									color: [227, 139, 79]
 								}
 							}
 						]
@@ -132,27 +132,184 @@ html, body, #viewDiv {
 
 			const wall_floor_1 = new GeoJSONLayer({
 				url: "./DataGeo/TangMot/3d/base.geojson",
-				renderer : {
-				type: "simple",
-				symbol: {
-					type: "polygon-3d",
-					symbolLayers: [
-						{
-							type: "extrude",
-							size: 22,
-							material: {
-								color: [255,140,0]
+				renderer: {
+					type: "simple",
+					symbol: {
+						type: "polygon-3d",
+						symbolLayers: [
+							{
+								type: "extrude",
+								size: 22,
+								material: {
+									color: [255, 140, 0]
+								},
+								edges: {
+									type: "solid",
+									color: "transparent",
+								},
 							},
-							edges: {
-								type: "solid",
-								color: "transparent",
-							},
-						},
 
-					]
+						]
+					}
 				}
-			}
 			});
+
+			// floor 3 layers
+			const floor3_roofs = new GeoJSONLayer({
+				url: "./DataGeo/floor3/roofs/roof.geojson",
+				renderer: {
+					type: "simple",
+					symbol: {
+						type: "polygon-3d",
+						symbolLayers: [
+							{
+								type: "extrude",
+								size: 0.2,
+								material: {
+									color: "#d9c3a3",
+								},
+								edges: {
+									type: "solid", // autocasts as new SolidEdges3D()
+									color: "transparent",
+								},
+							},
+						],
+					},
+				},
+			});
+			const floor3_pillars = new GeoJSONLayer({
+				url: "./DataGeo/floor3/pillars/pillars.geojson",
+				renderer: {
+					type: "simple",
+					symbol: {
+						type: "polygon-3d",
+						symbolLayers: [
+							{
+								type: "extrude",
+								size: 6,
+								material: {
+									color: "#f8c291",
+								},
+								edges: {
+									type: "solid", // autocasts as new SolidEdges3D()
+									color: "transparent",
+								},
+							},
+						],
+					},
+				},
+			});
+			const window_center_top = new GeoJSONLayer({
+				url: "./DataGeo/floor3/windows/window_center_top.geojson",
+				renderer: {
+					type: "simple",
+					symbol: {
+						type: "polygon-3d",
+						symbolLayers: [
+							{
+								type: "extrude",
+								size: 1,
+								material: {
+									color: "#fad390",
+								},
+								edges: {
+									type: "solid", // autocasts as new SolidEdges3D()
+									color: "transparent",
+								},
+							},
+						],
+					},
+				},
+			});
+			const window_center_bottom = new GeoJSONLayer({
+				url: "./DataGeo/floor3/windows/window_center_bottom.geojson",
+				renderer: {
+					type: "simple",
+					symbol: {
+						type: "polygon-3d",
+						symbolLayers: [
+							{
+								type: "extrude",
+								size: 2.5,
+								material: {
+									color: "#fad390",
+								},
+								edges: {
+									type: "solid", // autocasts as new SolidEdges3D()
+									color: "transparent",
+								},
+							},
+						],
+					},
+				},
+			});
+			const floor3_window_top_bottom = new GeoJSONLayer({
+				url: "./DataGeo/floor3/windows/floor3_window_top_bottom.geojson",
+				renderer: {
+					type: "simple",
+					symbol: {
+						type: "polygon-3d",
+						symbolLayers: [
+							{
+								type: "extrude",
+								size: 1,
+								material: {
+									color: "#fad390",
+								},
+								edges: {
+									type: "solid", // autocasts as new SolidEdges3D()
+									color: "transparent",
+								},
+							},
+						],
+					},
+				},
+			});
+			const floor3_window_vertical_axis = new GeoJSONLayer({
+				url: "./DataGeo/floor3/windows/floor3_window_vertical_axis.geojson",
+				renderer: {
+					type: "simple",
+					symbol: {
+						type: "polygon-3d",
+						symbolLayers: [
+							{
+								type: "extrude",
+								size: 4,
+								material: {
+									color: "#fad390",
+								},
+								edges: {
+									type: "solid", // autocasts as new SolidEdges3D()
+									color: "transparent",
+								},
+							},
+						],
+					},
+				},
+			});
+			const window_center_vertical_axis = new GeoJSONLayer({
+				url: "./DataGeo/floor3/windows/window_center_vertical_axis.geojson",
+				renderer: {
+					type: "simple",
+					symbol: {
+						type: "polygon-3d",
+						symbolLayers: [
+							{
+								type: "extrude",
+								size: 2.5,
+								material: {
+									color: "#fad390",
+								},
+								edges: {
+									type: "solid", // autocasts as new SolidEdges3D()
+									color: "transparent",
+								},
+							},
+						],
+					},
+				},
+			});
+			// end floor 3 layers
 
 			esriRequest('./DataGeo/TangMot/3d/roof.json', json_options).then(function (response) {
 				var graphicsLayer = new GraphicsLayer();
@@ -263,36 +420,46 @@ html, body, #viewDiv {
 				map.add(graphicsLayer);
 
 			});
-			        
+
 			const map = new Map({
-                basemap: "topo-vector",
-                ground: "world-elevation",
-                layers: [
+				basemap: "topo-vector",
+				ground: "world-elevation",
+				layers: [
 					floor1_wall_left,
 					floor1_wall_right,
 					floor1_wall_top,
 					wall_floor_1
 					//floor1_roof_top
+					, // floor3 layers
+					floor3_roofs,
+					floor3_window_top_bottom,
+					floor3_pillars,
+					floor3_window_vertical_axis,
+					window_center_top,
+					window_center_bottom,
+					window_center_vertical_axis
+					// end floor3 layers
 				] //end layers
-            });
+			});
 
-            const view = new SceneView({
-                container: "viewDiv",
-                map: map,
-                camera: {
-                    position: [106.69875038203608,10.779883612989181, 300],
-                    heading: 0,
-                    tilt: 75
-                }
-            });
+			const view = new SceneView({
+				container: "viewDiv",
+				map: map,
+				camera: {
+					position: [106.69875038203608, 10.779883612989181, 300],
+					heading: 0,
+					tilt: 75
+				}
+			});
 
-            view.popup.defaultPopupTemplateEnabled = true;
-        });
+			view.popup.defaultPopupTemplateEnabled = true;
+		});
 
-    </script>
+	</script>
 </head>
 
 <body>
 	<div id="viewDiv"></div>
 </body>
+
 </html>
