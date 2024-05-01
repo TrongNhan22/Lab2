@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<title>3D - Building Map</title>
+
+<style>
+html, body, #viewDiv {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+}
+
+</style>
+
+<link rel="stylesheet"
+	href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+<script src="https://js.arcgis.com/4.29/"></script>
+
+<script>
+    require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/GeoJSONLayer",
+        "esri/layers/GraphicsLayer",
+        "esri/Graphic",
+        "esri/geometry/Polygon",
+        "esri/geometry/Point",
+        "esri/request"
+    ], function (Map, SceneView, GeoJSONLayer, GraphicsLayer, Graphic, Polygon, Point, esriRequest) {
+        var createGraphic = function(data) {
+            return new Graphic({
+                geometry: data,
+                symbol: data.symbol,
+                attributes: data,
+                popupTemplate: data.popupTemplate
+            });
+        };
+
+        const json_options = {
+            query: {
+                f: "json"
+            },
+            responseType: "json"
+        };
+        // request json
+        esriRequest('./data.json', json_options).then(function(response) {
+            var graphicsLayer = new GraphicsLayer();
+            console.log(response);
+            response.data.forEach(function(data) {
+                graphicsLayer.add(createGraphic(data));
+            });
+            map.add(graphicsLayer);
+
+        });
+        // geojson layer
+        const geojsonLayer = new GeoJSONLayer({
+            url: "./data.geojson"
+        });
+
+        geojsonLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [
+                    {
+                        type: "extrude",
+                        size: 0,
+                        material: {
+                            color: "#7eadf7"
+                        },
+                        outline: {
+                            size: 1,
+                            color: [255, 255, 255]
+                        }
+                    }
+                ]
+            }
+        };
+
+        // New GeoJSON layer for tower1.geojson
+        const towerLayer = new GeoJSONLayer({
+            url: "./tower1.geojson"
+        });
+
+        towerLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [
+                    {
+                        type: "extrude",
+                        size: 36.6, // Adjust size as needed
+                        material: {
+                            color: "#F4A460" // Adjust color as needed
+                        },
+                        outline: {
+                            size: 1,
+                            color: [255, 255, 255]
+                        }
+                    }
+                ]
+            }
+        };
+        // New GeoJSON layer for pillars.geojson
+        const pillarsLayer = new GeoJSONLayer({
+            url: "./pillars.geojson"
+        });
+
+        pillarsLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [
+                    {
+                        type: "extrude",
+                        size: 30, // Adjust size as needed
+                        material: {
+                            color: "#CD853F" // Adjust color as needed
+                        },
+                        outline: {
+                            size: 1,
+                            color: [255, 255, 255]
+                        }
+                    }
+                ]
+            }
+        };
+
+        // New GeoJSON layer for top_roof1.geojson
+        const topRoofLayer = new GeoJSONLayer({
+            url: "./top_roof.geojson"
+        });
+
+        topRoofLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [{
+                    type: "extrude",
+                    size: 0, // Height of the roof, adjustable
+                    material: { color: "#B5B5B5" }, // Color of the roof, adjustable
+                    outline: {
+                        size: 1,
+                        color: [255, 255, 255]
+                    }
+                }]
+            }
+        };
+
+        // New GeoJSON layer for horizonal_bar.geojson
+        const horizonalBarLayer = new GeoJSONLayer({
+            url: "./horizonal_bar.geojson"
+        });
+
+        horizonalBarLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [{
+                    type: "extrude",
+                    size: 0, // Chiều cao của polygon
+                    material: { color: "#CD853F" }, // Màu sắc của polygon
+                    outline: {
+                        size: 1,
+                        color: [255, 255, 255]
+                    }
+                }]
+            }
+        };
+
+        // New GeoJSON layer for windows.geojson
+        const windowsLayer = new GeoJSONLayer({
+            url: "./windows.geojson"
+        });
+
+        windowsLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [{
+                    type: "extrude",
+                    size: 0.1, // Adjust the extrusion height as needed
+                    material: { color: "#B5B5B5" }, // Adjust the color as needed
+                    outline: {
+                        size: 1,
+                        color: [255, 255, 255]
+                    }
+                }]
+            }
+        };
+
+        // New GeoJSON layer for window_pillars.geojson
+        const windowPillarsLayer = new GeoJSONLayer({
+            url: "./window_pillars.geojson",
+            renderer: {
+                type: "simple",
+                symbol: {
+                    type: "point-3d",
+                    symbolLayers: [{
+                        type: "object",
+                        resource: { primitive: "cylinder" },
+                        material: { color: "#B5B5B5" },
+                        width: 0.1, // Diameter is 2 * radius
+                        height: 3.3, // Height of the cylinder
+                        depth: 0.1 // Diameter is 2 * radius
+                    }]
+                }
+            }
+        });
+
+        const map = new Map({
+            basemap: "topo-vector",
+            ground: "world-elevation",
+            layers: [geojsonLayer, towerLayer, topRoofLayer, pillarsLayer, horizonalBarLayer, windowsLayer, windowPillarsLayer] // Add windowPillarsLayer to the layers array
+        });
+
+        const view = new SceneView({
+            container: "viewDiv",
+            map: map,
+            camera: {
+                position: [106.69916694406545, 10.779501951477883, 300],
+                heading: 0,
+                tilt: 75
+            }
+        });
+
+        view.popup.defaultPopupTemplateEnabled = true;
+
+        // Load the lower roof data for pyramid visualization
+        esriRequest('./lower_roof.geojson', { responseType: "json" }).then(function(response) {
+            const features = response.data.features;
+            const graphicsLayer = new GraphicsLayer();
+
+            for (let i = 0; i < features.length; i += 2) {
+                const baseCoords = features[i].geometry.coordinates[0];
+                const centroid = features[i + 1].geometry.coordinates;
+
+                // Create a Polygon with the base and peak
+                const pyramidGeometry = new Polygon({
+                    rings: [
+                        ...baseCoords,
+                        centroid,
+                        baseCoords[0] // Close the loop
+                    ]
+                });
+
+                const pyramidGraphic = new Graphic({
+                    geometry: pyramidGeometry,
+                    symbol: {
+                        type: "polygon-3d",
+                        symbolLayers: [{
+                            type: "extrude",
+                            size: 0.2, // Height of the pyramid
+                            material: { color: "#808080" }
+                        }]
+                    }
+                });
+
+                graphicsLayer.add(pyramidGraphic);
+            }
+
+            map.add(graphicsLayer);
+        });
+    });
+
+</script>
+</head>
+
+<body>
+	<div id="viewDiv"></div>
+</body>
+</html>
