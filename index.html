@@ -25,9 +25,9 @@
 			"esri/Map",
 			"esri/views/SceneView",
 			"esri/layers/GeoJSONLayer",
-			"esri/layers/SceneLayer", "esri/layers/GraphicsLayer", "esri/Graphic", "esri/request"
+			"esri/layers/SceneLayer", "esri/layers/GraphicsLayer", "esri/Graphic", "esri/request", "esri/geometry/Polygon","esri/geometry/Point"
 		], function (Map, SceneView, GeoJSONLayer, SceneLayer,
-			GraphicsLayer, Graphic, esriRequest) {
+			GraphicsLayer, Graphic, esriRequest, Polygon) {
 			var createGraphic = function (data) {
 				return new Graphic({
 					geometry: data,
@@ -310,7 +310,127 @@
 				},
 			});
 			// end floor 3 layers
+			//towers
+			const towerLayer = new GeoJSONLayer({
+            url: "./DataGeo/towers/tower1.geojson"
+        });
 
+        towerLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [
+                    {
+                        type: "extrude",
+                        size: 36.6,
+                        material: {
+                            color: "#F4A460" 
+                        },
+                        outline: {
+                            size: 1,
+                            color: [255, 255, 255]
+                        }
+                    }
+                ]
+            }
+        };
+		const pillarsLayer = new GeoJSONLayer({
+            url: "./DataGeo/towers/pillars.geojson"
+        });
+
+        pillarsLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [
+                    {
+                        type: "extrude",
+                        size: 30, 
+                        material: {
+                            color: "#CD853F" 
+                        },
+                        outline: {
+                            size: 1,
+                            color: [255, 255, 255]
+                        }
+                    }
+                ]
+            }
+        };
+		const topRoofLayer = new GeoJSONLayer({
+            url: "./DataGeo/towers/top_roof.geojson"
+        });
+
+        topRoofLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [{
+                    type: "extrude",
+                    size: 0, 
+                    material: { color: "#B5B5B5" }, 
+                    outline: {
+                        size: 1,
+                        color: [255, 255, 255]
+                    }
+                }]
+            }
+        };
+		const horizonalBarLayer = new GeoJSONLayer({
+            url: "./DataGeo/towers/horizonal_bar.geojson"
+        });
+
+        horizonalBarLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [{
+                    type: "extrude",
+                    size: 0, 
+                    material: { color: "#CD853F" }, 
+                    outline: {
+                        size: 1,
+                        color: [255, 255, 255]
+                    }
+                }]
+            }
+        };
+		const windowsLayer = new GeoJSONLayer({
+            url: "./DataGeo/towers/windows.geojson"
+        });
+
+        windowsLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [{
+                    type: "extrude",
+                    size: 0.1,
+                    material: { color: "#B5B5B5" }, 
+                    outline: {
+                        size: 1,
+                        color: [255, 255, 255]
+                    }
+                }]
+            }
+        };
+		const windowPillarsLayer = new GeoJSONLayer({
+            url: "./DataGeo/towers/window_pillars.geojson",
+            renderer: {
+                type: "simple",
+                symbol: {
+                    type: "point-3d",
+                    symbolLayers: [{
+                        type: "object",
+                        resource: { primitive: "cylinder" },
+                        material: { color: "#B5B5B5" },
+                        width: 0.1, 
+                        height: 3.3, 
+                        depth: 0.1 
+                    }]
+                }
+            }
+        });
 			esriRequest('./DataGeo/TangMot/3d/roof.json', json_options).then(function (response) {
 				var graphicsLayer = new GraphicsLayer();
 				console.log(response);
@@ -420,6 +540,42 @@
 				map.add(graphicsLayer);
 
 			});
+			
+			// Load the lower roof data for pyramid visualization
+			esriRequest('./DataGeo/towers/lower_roof.geojson', { responseType: "json" }).then(function(response) {
+				const features = response.data.features;
+				const graphicsLayer = new GraphicsLayer();
+
+				for (let i = 0; i < features.length; i += 2) {
+					const baseCoords = features[i].geometry.coordinates[0];
+					const centroid = features[i + 1].geometry.coordinates;
+
+					// Create a Polygon with the base and peak
+					const pyramidGeometry = new Polygon({
+						rings: [
+							...baseCoords,
+							centroid,
+							baseCoords[0] // Close the loop
+						]
+					});
+
+					const pyramidGraphic = new Graphic({
+						geometry: pyramidGeometry,
+						symbol: {
+							type: "polygon-3d",
+							symbolLayers: [{
+								type: "extrude",
+								size: 0.2, // Height of the pyramid
+								material: { color: "#808080" }
+							}]
+						}
+					});
+
+					graphicsLayer.add(pyramidGraphic);
+				}
+
+				map.add(graphicsLayer);
+			});
 
 			const map = new Map({
 				basemap: "topo-vector",
@@ -437,8 +593,17 @@
 					floor3_window_vertical_axis,
 					window_center_top,
 					window_center_bottom,
-					window_center_vertical_axis
+					window_center_vertical_axis,
+					
 					// end floor3 layers
+
+					//tower
+					towerLayer,
+					pillarsLayer,
+					windowPillarsLayer,
+					horizonalBarLayer,
+					windowsLayer,
+					topRoofLayer
 				] //end layers
 			});
 
@@ -453,7 +618,9 @@
 			});
 
 			view.popup.defaultPopupTemplateEnabled = true;
+			
 		});
+		
 
 	</script>
 </head>
