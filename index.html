@@ -311,6 +311,146 @@
 			});
 			// end floor 3 layers
 
+			// floor 2 layers
+			const floor2_roof_before = new GeoJSONLayer({
+                url: "./DataGeo/floor2/roofs/roof_before.geojson",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "polygon-3d",
+                        symbolLayers: [
+                            {
+                                type: "extrude",
+                                size: 0.2,
+                                material: {
+                                    color: "#d9c3a3",
+                                },
+                                edges: {
+                                    type: "solid", // autocasts as new SolidEdges3D()
+                                    color: "transparent",
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+
+            const floor2_roof_after = new GeoJSONLayer({
+                url: "./DataGeo/floor2/roofs/roof_after.geojson",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "polygon-3d",
+                        symbolLayers: [
+                            {
+                                type: "extrude",
+                                size: 0.2,
+                                material: {
+                                    color: "#d9c3a3",
+                                },
+                                edges: {
+                                    type: "solid", // autocasts as new SolidEdges3D()
+                                    color: "transparent",
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+
+            const floor2_wall_top_bottom = new GeoJSONLayer({
+                url: "./DataGeo/floor2/walls/wall_top_bottom.geojson",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "polygon-3d",
+                        symbolLayers: [
+                            {
+                                type: "extrude",
+                                size: 1,
+                                material: {
+                                    color: "smoke",
+                                },
+                                edges: {
+                                    type: "solid", // autocasts as new SolidEdges3D()
+                                    color: "transparent",
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+
+            const floor2_wall_left_right = new GeoJSONLayer({
+                url: "./DataGeo/floor2/walls/wall_left_right.geojson",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "polygon-3d",
+                        symbolLayers: [
+                            {
+                                type: "extrude",
+                                size: 2,
+                                material: {
+                                    color: "smoke",
+                                },
+                                edges: {
+                                    type: "solid", // autocasts as new SolidEdges3D()
+                                    color: "transparent",
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+
+            const floor2_wall_right_top_bottom = new GeoJSONLayer({
+                url: "./DataGeo/floor2/walls/wall_right_top_bottom.geojson",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "polygon-3d",
+                        symbolLayers: [
+                            {
+                                type: "extrude",
+                                size: 1,
+                                material: {
+                                    color: "smoke",
+                                },
+                                edges: {
+                                    type: "solid", // autocasts as new SolidEdges3D()
+                                    color: "transparent",
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+
+            const floor2_wall_right_window = new GeoJSONLayer({
+                url: "./DataGeo/floor2/walls/wall_right_window.geojson",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "polygon-3d",
+                        symbolLayers: [
+                            {
+                                type: "extrude",
+                                size: 2,
+                                material: {
+                                    color: "smoke",
+                                },
+                                edges: {
+                                    type: "solid", // autocasts as new SolidEdges3D()
+                                    color: "transparent",
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+
+
 			esriRequest('./DataGeo/TangMot/3d/roof.json', json_options).then(function (response) {
 				var graphicsLayer = new GraphicsLayer();
 				console.log(response);
@@ -437,8 +577,15 @@
 					floor3_window_vertical_axis,
 					window_center_top,
 					window_center_bottom,
-					window_center_vertical_axis
+					window_center_vertical_axis,
 					// end floor3 layers
+					//floor2
+					floor2_roof_before,
+                    floor2_roof_after,
+                    floor2_wall_top_bottom,
+                    floor2_wall_left_right,
+                    floor2_wall_right_top_bottom,
+                    floor2_wall_right_window
 				] //end layers
 			});
 
@@ -446,9 +593,9 @@
 				container: "viewDiv",
 				map: map,
 				camera: {
-					position: [106.69875038203608, 10.779883612989181, 300],
-					heading: 0,
-					tilt: 75
+					position: [106.69895445009604, 10.778530685051535, 200],
+                    heading: 0,
+                    tilt: 30
 				}
 			});
 
