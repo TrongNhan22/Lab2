@@ -129,6 +129,140 @@ html, body, #viewDiv {
 					}
 				}
 			});
+
+			const wall_floor_1 = new GeoJSONLayer({
+				url: "./DataGeo/TangMot/3d/base.geojson",
+				renderer : {
+				type: "simple",
+				symbol: {
+					type: "polygon-3d",
+					symbolLayers: [
+						{
+							type: "extrude",
+							size: 17,
+							material: {
+								color: [255,140,0]
+							},
+							edges: {
+								type: "solid",
+								color: "transparent",
+							},
+						},
+
+					]
+				}
+			}
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/roof.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump/plump_1.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump/plump_2.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump/plump_3.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump/plump_4.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump/plump_5.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump_right/plump_1.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump_right/plump_2.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump_right/plump_3.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump_right/plump_4.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
+
+			esriRequest('./DataGeo/TangMot/3d/plump_right/plump_5.json', json_options).then(function (response) {
+				var graphicsLayer = new GraphicsLayer();
+				console.log(response);
+				response.data.forEach(function (data) {
+					graphicsLayer.add(createGraphic(data));
+				});
+				map.add(graphicsLayer);
+
+			});
 			        
 			const map = new Map({
                 basemap: "topo-vector",
@@ -136,7 +270,8 @@ html, body, #viewDiv {
                 layers: [
 					floor1_wall_left,
 					floor1_wall_right,
-					floor1_wall_top
+					floor1_wall_top,
+					wall_floor_1
 					//floor1_roof_top
 				] //end layers
             });
