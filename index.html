@@ -663,7 +663,50 @@
                 },
             });
 
+		//horizontal house
+		const HorizontalHouseLayer = new GeoJSONLayer({
+        	url: "./DataGeo/horizontal_house/house.geojson"
+        });
 
+		HorizontalHouseLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [
+                    {
+                        type: "extrude",
+                        size: 40, // Adjust size as needed
+                        material: {
+                            color: [227, 139, 79] // Adjust color as needed
+                        },
+                        outline: {
+                            size: 1,
+                            color: [181,181,181]
+                        }
+                    }
+                ]
+            }
+        };
+
+		const RoofLayer = new GeoJSONLayer({
+            url: "./DataGeo/horizontal_house/Roof.geojson"
+        });
+
+        RoofLayer.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [{
+                    type: "extrude",
+                    size: 0.1, // Adjust the extrusion height as needed
+                    material: { color: "#B5B5B5" }, // Adjust the color as needed
+                    outline: {
+                        size: 1,
+                        color: [255, 255, 255]
+                    }
+                }]
+            }
+        };
 			esriRequest('./DataGeo/TangMot/3d/roof.json', json_options).then(function (response) {
 				var graphicsLayer = new GraphicsLayer();
 				console.log(response);
@@ -846,8 +889,12 @@
 					floor2_wall_before,
 					floor2_wall_before_bottom,
 					floor2_wall_before_top,
-					floor2_wall_before_left_right
+					floor2_wall_before_left_right,
+					//horizontal house
+					HorizontalHouseLayer,
+					RoofLayer
 				] //end layers
+
 			});
 
 			const view = new SceneView({
