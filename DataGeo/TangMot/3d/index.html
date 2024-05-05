@@ -155,7 +155,81 @@
 					symbolLayers: [
 						{
 							type: "extrude",
-							size: 17,
+							size: 22,
+							material: {
+								color: [255,140,0]
+							},
+							edges: {
+								type: "solid",
+								color: "transparent",
+							},
+						},
+
+					]
+				}
+			};
+
+			const topLayer = new GeoJSONLayer({
+				url: "./top.geojson"
+			});
+
+			topLayer.renderer = {
+				type: "simple",
+				symbol: {
+					type: "polygon-3d",
+					symbolLayers: [
+						{
+							type: "extrude",
+							size: 2,
+							material: {
+								color: [255,140,0]
+							},
+							edges: {
+								type: "solid",
+								color: "transparent",
+							},
+						},
+
+					]
+				}
+			};
+
+			const window_left = new GeoJSONLayer({
+				url: "./window_left.geojson"
+			});
+
+			window_left.renderer = {
+				type: "simple",
+				symbol: {
+					type: "polygon-3d",
+					symbolLayers: [
+						{
+							type: "extrude",
+							size: 22,
+							material: {
+								color: [255,140,0]
+							},
+							edges: {
+								type: "solid",
+								color: "transparent",
+							},
+						},
+
+					]
+				}
+			};
+			const window_right = new GeoJSONLayer({
+				url: "./window_right.geojson"
+			});
+
+			window_right.renderer = {
+				type: "simple",
+				symbol: {
+					type: "polygon-3d",
+					symbolLayers: [
+						{
+							type: "extrude",
+							size: 22,
 							material: {
 								color: [255,140,0]
 							},
@@ -171,7 +245,7 @@
 			const map = new Map({
 				basemap: "topo-vector",
 				ground: "world-elevation",
-				layers: [geojsonLayer] //end layers
+				layers: [geojsonLayer,topLayer,window_left,window_right] //end layers
 			});
 
 			const view = new SceneView({
