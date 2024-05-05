@@ -1,0 +1,15 @@
+{
+    "type": "Feature",
+    "geometry": {
+      "type": "Circle",
+      "coordinates": [106.680179, 10.827608], 
+      "radius": 500 
+    },
+    "properties": {
+      "title": "Cửa sổ hình tròn 3D",
+      "description": "Ví dụ về cửa sổ hình tròn 3D trong GeoJSON HTML",
+      "fill": "#ff0000", 
+      "stroke": "#000000", 
+      "stroke-width": 2 
+    }
+  }
